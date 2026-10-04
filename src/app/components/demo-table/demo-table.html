@@ -1,0 +1,121 @@
+<div class="demo-container">
+  <h2>🎯 Demo: Directiva <code>appTableFilterSort</code></h2>
+  <p class="subtitle">
+    Filtra y ordena los datos de la tabla de forma dinámica usando una directiva personalizada de Angular.
+  </p>
+
+  <!-- ============ PANEL DE CONTROLES ============ -->
+  <section class="controls">
+
+    <!-- Filtro -->
+    <div class="control-group">
+      <h3>🔍 Filtro</h3>
+
+      <label>
+        Campo:
+        <select [(ngModel)]="filterField" (ngModelChange)="onFieldChange()">
+          @for (f of filterableFields; track f.key) {
+            <option [value]="f.key">{{ f.label }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        Operador:
+        <select [(ngModel)]="filterOperator">
+          <option value="contains">Contiene</option>
+          <option value="equals">Igual a</option>
+          <option value="gt">Mayor que</option>
+          <option value="lt">Menor que</option>
+          <option value="between">Entre</option>
+        </select>
+      </label>
+
+      @if (filterOperator === 'between') {
+        <label>
+          Desde:
+          <input type="text" [(ngModel)]="filterValueMin" placeholder="mín" />
+        </label>
+        <label>
+          Hasta:
+          <input type="text" [(ngModel)]="filterValueMax" placeholder="máx" />
+        </label>
+      } @else if (filterField === 'categoria') {
+        <label>
+          Valor:
+          <select [(ngModel)]="filterValue">
+            @for (c of categories; track c) {
+              <option [value]="c">{{ c }}</option>
+            }
+          </select>
+        </label>
+      } @else {
+        <label>
+          Valor:
+          <input type="text" [(ngModel)]="filterValue" placeholder="Escribe..." />
+        </label>
+      }
+
+      <div class="buttons">
+        <button class="btn-primary" (click)="applyFilter()">Aplicar filtro</button>
+        <button class="btn-secondary" (click)="clearFilter()">Limpiar</button>
+      </div>
+    </div>
+
+    <!-- Ordenación -->
+    <div class="control-group">
+      <h3>⇅ Ordenación</h3>
+      <p>Haz clic en las cabeceras de la tabla o usa los botones:</p>
+      <div class="buttons">
+        <button class="btn-secondary" (click)="sortBy('nombre')">Por nombre</button>
+        <button class="btn-secondary" (click)="sortBy('precio')">Por precio</button>
+        <button class="btn-secondary" (click)="sortBy('fechaAlta')">Por fecha</button>
+        <button class="btn-secondary" (click)="clearSort()">Quitar orden</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TABLA ============ -->
+  <section class="table-wrapper">
+    <table
+      [appTableFilterSort]="products"
+      [filterConfig]="activeFilter()"
+      [sortConfig]="activeSort()"
+      (dataProcessed)="onDataProcessed($event)"
+    >
+      <thead>
+        <tr>
+          <th (click)="sortBy('id')">ID {{ getSortIcon('id') }}</th>
+          <th (click)="sortBy('nombre')">Nombre {{ getSortIcon('nombre') }}</th>
+          <th (click)="sortBy('categoria')">Categoría {{ getSortIcon('categoria') }}</th>
+          <th (click)="sortBy('fechaAlta')">Fecha alta {{ getSortIcon('fechaAlta') }}</th>
+          <th (click)="sortBy('precio')">Precio {{ getSortIcon('precio') }}</th>
+          <th (click)="sortBy('stock')">Stock {{ getSortIcon('stock') }}</th>
+          <th (click)="sortBy('valoracion')">Valoración {{ getSortIcon('valoracion') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of processedData(); track p.id) {
+          <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.nombre }}</td>
+            <td><span class="badge">{{ p.categoria }}</span></td>
+            <td>{{ p.fechaAlta }}</td>
+            <td class="num">{{ p.precio | number:'1.2-2' }} €</td>
+            <td class="num">{{ p.stock }}</td>
+            <td class="num">⭐ {{ p.valoracion }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty">Sin resultados para el filtro aplicado.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <p class="counter">
+      Mostrando <strong>{{ processedData().length }}</strong> de
+      <strong>{{ products.length }}</strong> registros.
+    </p>
+  </section>
+</div>
