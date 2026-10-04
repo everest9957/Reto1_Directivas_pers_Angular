@@ -324,6 +324,28 @@ Este proyecto forma parte del **Reto 1 — Frame 5 (U2.1)** del curso *Desarroll
 - ✅ Demostración funcional en la app
 - ✅ Documentación en este README
 
+
+---
+
+## ✅ Cumplimiento del reto
+
+| Requisito | Estado |
+|---|---|
+| Directiva personalizada aplicable a cualquier tabla | ✅ |
+| Filtrado por rangos de fechas | ✅ |
+| Filtrado por categorías | ✅ |
+| Filtrado por valores numéricos | ✅ |
+| Ordenación por nombre | ✅ |
+| Ordenación por fecha | ✅ |
+| Ordenación por precio | ✅ |
+| Tabla demo con datos simulados | ✅ |
+| Código fuente en GitHub | ✅ |
+| Demostración funcional | ✅ |
+| Documentación en README | ✅ |
+
+**Cumplimiento: 11/11 → 100 %** 🎯
+
+📄 [Ver informe completo de cumplimiento](docs/CUMPLIMIENTO.md)
 ---
 
 ## 📄 Licencia
